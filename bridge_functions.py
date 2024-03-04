@@ -1,20 +1,3 @@
-"""Assignment 2: Bridges
-
-The data used for this assignment is a subset of the data found in:
-https://data.ontario.ca/dataset/bridge-conditions
-
-This code is provided solely for the personal and private use of
-students taking the CSCA08 course at the University of Toronto
-Scarborough. Copying for purposes other than this use is expressly
-prohibited. All forms of distribution of this code, whether as given
-or with any changes, are expressly prohibited.
-
-All of the files in this directory and all subdirectories are:
-Copyright (c) 2023 Anya Tafliovich, Mario Badr, Tom Fairgrieve, Sadia
-Sharmin, and Jacqueline Smith
-
-"""
-
 import csv
 from copy import deepcopy
 from math import sin, cos, asin, radians, sqrt, inf
@@ -33,29 +16,14 @@ from constants import (
 EPSILON = 0.01
 
 
-# We provide this function for you to use as a helper.
 def read_data(csv_file: TextIO) -> list[list[str]]:
-    """Read and return the contents of the open CSV file csv_file as a
-    list of lists, where each inner list contains the values from one
-    line of csv_file.
-
-    Docstring examples not given since the function reads from a file.
-
     """
 
     lines = csv.reader(csv_file)
     return list(lines)[2:]
 
 
-# We provide this function for you to use as a helper.  This function
-# uses the haversine function to find the distance between two
-# locations. You do not need to understand why it works. You will just
-# need to call this function and work with what it returns.  Based on
-# https://en.wikipedia.org/wiki/Haversine_formula
-# Notice how we use the built-in function abs and the constant EPSILON
-# defined above to constuct example calls for the function that
-# returns a float. We do not test with ==; instead, we check that the
-# return value is "close enough" to the expected result.
+
 def calculate_distance(lat1: float, lon1: float,
                        lat2: float, lon2: float) -> float:
     """Return the distance in kilometers between the two locations defined by
@@ -78,7 +46,7 @@ def calculate_distance(lat1: float, lon1: float,
     return round(2 * EARTH_RADIUS * asin(sqrt(haversine)), 3)
 
 
-# We provide this sample data to help you set up example calls.
+
 THREE_BRIDGES_UNCLEANED = [
     ['1 -  32/', 'Highway 24 Underpass at Highway 403', '403', '43.167233',
      '-80.275567', '1965', '2014', '2009', '4',
@@ -108,9 +76,6 @@ THREE_BRIDGES = [
      [85.1, 67.8, 67.4, 69.2, 70.0, 70.5, 75.1, 90.1]]
 ]
 
-
-# We provide the header and doctring for this function to help get you
-# started.
 def get_bridge(bridge_data: list[list], bridge_id: int) -> list:
     """Return the data for the bridge with id bridge_id from bridge data
     bridge_data. If there is no bridge with id bridge_id, return [].
@@ -304,19 +269,6 @@ def get_bridges_containing(bridge_data: list[list], search: str) -> list[int]:
             bridges_list.append(bridge[ID_INDEX])
     return bridges_list
 
-
-# We provide the header and doctring for this function to help get you started.
-def assign_inspectors(bridge_data: list[list], inspectors: list[list[float]],
-                      max_bridges: int) -> list[list[int]]:
-    """Return a list of bridge IDs from bridge data bridge_data, to be
-    assigned to each inspector in inspectors. inspectors is a list
-    containing (latitude, longitude) pairs representing each
-    inspector's location. At most max_bridges are assigned to each
-    inspector, and each bridge is assigned once (to the first
-    inspector that can inspect that bridge).
-
-    See the "Assigning Inspectors" section of the handout for more details.
-
     >>> assign_inspectors(THREE_BRIDGES, [[43.10, -80.15], [42.10, -81.15]], 0)
     [[], []]
     >>> assign_inspectors(THREE_BRIDGES, [[43.10, -80.15]], 1)
@@ -382,12 +334,6 @@ def assign_inspectors(bridge_data: list[list], inspectors: list[list[float]],
 
     return inspector_assignments
 
-
-# We provide the header and doctring for this function to help get you
-# started. Note the use of the built-in function deepcopy (see
-# help(deepcopy)!): since this function modifies its input, we do not
-# want to call it with THREE_BRIDGES, which would interfere with the
-# use of THREE_BRIDGES in examples for other functions.
 def inspect_bridges(bridge_data: list[list], bridge_ids: list[int], date: str,
                     bci: float) -> None:
     """Update the bridges in bridge_data with id in bridge_ids with the new
@@ -449,8 +395,6 @@ def add_rehab(bridge_data: list[list], bridge_id: int, rehab_year: str,
             else:
                 bridge[LAST_MINOR_INDEX] = rehab_year_slice
 
-
-# We provide the header and doctring for this function to help get you started.
 def format_data(data: list[list[str]]) -> None:
     """Modify the uncleaned bridge data data, so that it contains proper
     bridge data, i.e., follows the format outlined in the 'Data
@@ -470,10 +414,6 @@ def format_data(data: list[list[str]]) -> None:
         format_length(data[i])
         format_bcis(data[i])
 
-
-# This is a suggested helper function for format_data. We provide the
-# header and doctring for this function to help you structure your
-# solution.
 def format_location(bridge_record: list) -> None:
     """Format latitude and longitude data in the bridge record bridge_record.
 
@@ -493,10 +433,6 @@ def format_location(bridge_record: list) -> None:
     bridge_record[LAT_INDEX] = float(bridge_record[LAT_INDEX])
     bridge_record[LON_INDEX] = float(bridge_record[LON_INDEX])
 
-
-# This is a suggested helper function for format_data. We provide the
-# header and doctring for this function to help you structure your
-# solution.
 def format_spans(bridge_record: list) -> None:
     """Format the bridge spans data in the bridge record bridge_record.
 
@@ -533,10 +469,6 @@ def format_spans(bridge_record: list) -> None:
 
     bridge_record[SPAN_DETAILS_INDEX] = spans_list
 
-
-# This is a suggested helper function for format_data. We provide the
-# header and doctring for this function to help you structure your
-# solution.
 def format_length(bridge_record: list) -> None:
     """Format the bridge length data in the bridge record bridge_record.
 
@@ -560,10 +492,6 @@ def format_length(bridge_record: list) -> None:
     else:
         bridge_record[LENGTH_INDEX] = 0.0
 
-
-# This is a suggested helper function for format_data. We provide the
-# header and doctring for this function to help you structure your
-# solution.
 def format_bcis(bridge_record: list) -> None:
     """Format the bridge BCI data in the bridge record bridge_record.
 
@@ -596,15 +524,4 @@ if __name__ == '__main__':
     import doctest
     doctest.testmod()
 
-    # To test your code with larger lists, you can uncomment the code below to
-    # read data from the provided CSV file.
-    # with open('bridge_data.csv', encoding='utf-8') as bridge_data_file:
-    #     BRIDGES = read_data(bridge_data_file)
-    # format_data(BRIDGES)
-
-    # For example:
-    # print(get_bridge(BRIDGES, 3))
-    # EXPECTED = [3, 'NORTH PARK STEET UNDERPASS', '403', 43.165918, -80.263791,
-    #             '1962', '2013', '2009', 4, [12.2, 18.0, 18.0, 12.2], 60.8,
-    #             '04/13/2012', [71.4, 69.9, 67.7, 68.9, 69.1, 69.9, 72.8]]
-    # print('Testing get_bridge: ', get_bridge(BRIDGES, 3) == EXPECTED)
+    
